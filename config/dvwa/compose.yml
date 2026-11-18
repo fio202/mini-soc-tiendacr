@@ -1,0 +1,35 @@
+# Aplicacion vulnerable de TiendaCR (DVWA) en contenedores.
+# El puerto se publica SOLO en 127.0.0.1: el acceso externo pasa por nginx en el host.
+# Motivo: Docker inserta sus propias reglas iptables y se salta UFW cuando publica en 0.0.0.0.
+# Las claves de la BD se generan en la VM (/opt/dvwa/.env) y no se versionan.
+services:
+  dvwa:
+    image: ghcr.io/digininja/dvwa:latest
+    environment:
+      DB_SERVER: db
+      DB_DATABASE: dvwa
+      DB_USER: dvwa
+      DB_PASSWORD: ${DVWA_DB_PASSWORD}
+      DEFAULT_SECURITY_LEVEL: ${DVWA_SECURITY_LEVEL:-low}
+    ports:
+      - "127.0.0.1:4280:80"
+    volumes:
+      # Directorio de subidas en el host para que el FIM de Wazuh lo vigile
+      - /opt/dvwa/uploads:/var/www/html/hackable/uploads
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: docker.io/library/mariadb:10
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DVWA_DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: dvwa
+      MYSQL_USER: dvwa
+      MYSQL_PASSWORD: ${DVWA_DB_PASSWORD}
+    volumes:
+      - dvwa-db:/var/lib/mysql
+    restart: unless-stopped
+
+volumes:
+  dvwa-db:

@@ -1,0 +1,110 @@
+<!--
+  Reglas propias de TiendaCR para el manager Wazuh (rango 100100-100199).
+  Se instalan en /var/ossec/etc/rules/tiendacr_rules.xml
+  No requieren decodificador propio: nginx usa el decodificador nativo "web-accesslog"
+  y Suricata el decodificador JSON.
+-->
+
+<!-- ===================== Aplicacion web (access log de nginx) ===================== -->
+<group name="tiendacr,web,">
+
+  <!-- Cada intento de login contra el modulo de autenticacion de DVWA -->
+  <rule id="100100" level="3">
+    <if_sid>31100</if_sid>
+    <url>/vulnerabilities/brute/</url>
+    <match>password=</match>
+    <description>TiendaCR: intento de login web desde $(srcip)</description>
+    <group>authentication_failed,</group>
+  </rule>
+
+  <!-- Correlacion: 10 intentos en 60 s desde la misma IP = fuerza bruta.
+       Dispara la respuesta activa firewall-drop. -->
+  <rule id="100101" level="10" frequency="10" timeframe="60" ignore="120">
+    <if_matched_sid>100100</if_matched_sid>
+    <same_source_ip />
+    <description>TiendaCR: fuerza bruta contra el login web desde $(srcip) (10 intentos/60 s)</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+    <group>authentication_failures,attack,</group>
+  </rule>
+
+</group>
+
+<!-- ===================== Integridad de archivos (FIM) ===================== -->
+<group name="tiendacr,syscheck,">
+
+  <!-- Archivo nuevo en el directorio de subidas de la aplicacion -->
+  <rule id="100110" level="12">
+    <if_sid>554</if_sid>
+    <field name="file">^/opt/dvwa/uploads/</field>
+    <description>TiendaCR: archivo nuevo en el directorio de subidas web: $(file) (posible web shell)</description>
+    <mitre>
+      <id>T1505.003</id>
+    </mitre>
+    <group>attack,</group>
+  </rule>
+
+  <!-- Archivo de subidas modificado -->
+  <rule id="100111" level="10">
+    <if_sid>550</if_sid>
+    <field name="file">^/opt/dvwa/uploads/</field>
+    <description>TiendaCR: archivo modificado en el directorio de subidas web: $(file)</description>
+    <mitre>
+      <id>T1505.003</id>
+    </mitre>
+  </rule>
+
+  <!-- Cambio en llaves autorizadas de SSH (persistencia) -->
+  <rule id="100112" level="12">
+    <if_sid>550,554</if_sid>
+    <field name="file">authorized_keys$</field>
+    <description>TiendaCR: cambio en authorized_keys: $(file) (posible persistencia)</description>
+    <mitre>
+      <id>T1098.004</id>
+    </mitre>
+  </rule>
+
+</group>
+
+<!-- ===================== IDS de red (reglas propias de Suricata) ===================== -->
+<!-- Suben el nivel de las alertas TIENDACR (86601 es nivel 3) y les asignan MITRE ATT&CK -->
+<group name="tiendacr,ids,suricata,">
+
+  <rule id="100120" level="8">
+    <if_sid>86601</if_sid>
+    <field name="alert.signature_id">^1000001$</field>
+    <description>TiendaCR IDS: barrido de puertos desde $(src_ip)</description>
+    <mitre>
+      <id>T1046</id>
+    </mitre>
+  </rule>
+
+  <rule id="100121" level="10">
+    <if_sid>86601</if_sid>
+    <field name="alert.signature_id">^1000002$</field>
+    <description>TiendaCR IDS: fuerza bruta de login web desde $(src_ip)</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+  </rule>
+
+  <rule id="100122" level="12">
+    <if_sid>86601</if_sid>
+    <field name="alert.signature_id">^1000003$|^1000004$|^1000005$</field>
+    <description>TiendaCR IDS: $(alert.signature) desde $(src_ip)</description>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+  </rule>
+
+  <rule id="100123" level="12">
+    <if_sid>86601</if_sid>
+    <field name="alert.signature_id">^1000006$</field>
+    <description>TiendaCR IDS: subida de codigo PHP desde $(src_ip) (posible web shell)</description>
+    <mitre>
+      <id>T1505.003</id>
+    </mitre>
+  </rule>
+
+</group>

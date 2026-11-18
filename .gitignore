@@ -1,0 +1,15 @@
+# Nunca versionar credenciales ni estado local de Vagrant
+.vagrant/
+*.env
+.env*
+*passwords*
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+wazuh-install-files.tar
+*.log
+
+# Informe generado y entorno de compilación
+.venv/
+informe/informe.html

@@ -1,0 +1,11 @@
+  <!-- TiendaCR: respuesta activa - bloqueo de la IP atacante en el servidor objetivo -->
+  <active-response>
+    <disabled>no</disabled>
+    <command>firewall-drop</command>
+    <location>defined-agent</location>
+    <agent_id>001</agent_id>
+    <!-- 100101: fuerza bruta web (regla propia) | 5763: fuerza bruta SSH (regla nativa) -->
+    <rules_id>100101,5763</rules_id>
+    <!-- Bloqueo temporal de 10 minutos: limita el dano de un falso positivo -->
+    <timeout>600</timeout>
+  </active-response>

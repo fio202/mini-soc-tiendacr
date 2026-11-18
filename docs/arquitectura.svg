@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="860" viewBox="0 0 1280 860" font-family="DejaVu Sans, Arial, sans-serif">
+  <defs>
+    <marker id="aRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c0392b"/></marker>
+    <marker id="aBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f5fa8"/></marker>
+    <marker id="aGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker>
+    <marker id="aGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1e8449"/></marker>
+    <marker id="aOrange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d35400"/></marker>
+    <style>
+      .t  { font-size: 15px; font-weight: 700; fill: #1b1b1b; }
+      .s  { font-size: 12px; fill: #333; }
+      .xs { font-size: 11px; fill: #444; }
+      .m  { font-family: DejaVu Sans Mono, monospace; font-size: 11px; fill: #333; }
+      .lbl{ font-size: 12px; font-weight: 700; }
+      .box{ fill: #ffffff; stroke: #7a7a7a; stroke-width: 1.2; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="860" fill="#ffffff"/>
+  <text x="640" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#1b1b1b">Mini SOC TiendaCR: arquitectura del laboratorio</text>
+
+  <!-- Red solo-anfitrion -->
+  <rect x="20" y="52" width="1240" height="760" rx="14" fill="#f7f9fb" stroke="#8aa0b6" stroke-width="1.5" stroke-dasharray="8 6"/>
+  <text x="36" y="76" class="s" font-weight="700" fill="#4a6178">Red solo-anfitrión VirtualBox · 192.168.56.0/24 (sin salida a internet para los servicios del laboratorio)</text>
+
+  <!-- ===================== Laptop ===================== -->
+  <rect x="44" y="100" width="270" height="130" rx="10" fill="#eaf1fb" stroke="#1f5fa8" stroke-width="1.6"/>
+  <text x="60" y="126" class="t">Laptop del equipo</text>
+  <text x="60" y="146" class="m">192.168.56.1 · anfitrión</text>
+  <text x="60" y="168" class="s">• Analista SOC: panel Wazuh</text>
+  <text x="60" y="186" class="s">• Administración por SSH (llaves)</text>
+  <text x="60" y="204" class="s">• Vagrant + VirtualBox</text>
+  <text x="60" y="222" class="xs" fill="#1f5fa8">En lista blanca de respuesta activa</text>
+
+  <!-- ===================== Kali ===================== -->
+  <rect x="44" y="560" width="270" height="150" rx="10" fill="#fdecea" stroke="#c0392b" stroke-width="1.6"/>
+  <text x="60" y="586" class="t">tiendacr-kali (atacante)</text>
+  <text x="60" y="606" class="m">192.168.56.30 · Kali Linux</text>
+  <text x="60" y="628" class="s">Ataques controlados:</text>
+  <text x="60" y="646" class="s">1 escaneo · 2 fuerza bruta</text>
+  <text x="60" y="664" class="s">3 SQLi / traversal · 4 web shell</text>
+  <text x="60" y="690" class="xs" fill="#c0392b">✕ Sin acceso al SIEM (bloqueado por UFW)</text>
+
+  <!-- ===================== SIEM ===================== -->
+  <rect x="740" y="96" width="490" height="214" rx="10" fill="#fff8e6" stroke="#b7791f" stroke-width="3"/>
+  <rect x="1090" y="86" width="132" height="22" rx="4" fill="#b7791f"/>
+  <text x="1156" y="102" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">UFW: deny por defecto</text>
+  <text x="756" y="124" class="t">tiendacr-siem · Wazuh 4.14</text>
+  <text x="756" y="142" class="m">192.168.56.20 · Ubuntu 24.04 · 4 vCPU / 8 GB</text>
+
+  <rect x="756" y="156" width="132" height="140" rx="6" class="box"/>
+  <text x="766" y="176" class="s" font-weight="700">Dashboard</text>
+  <text x="766" y="196" class="m">:443 ← solo .1</text>
+  <text x="766" y="214" class="xs">panel del SOC</text>
+  <text x="766" y="232" class="xs">(analista)</text>
+  <rect x="900" y="156" width="206" height="140" rx="6" class="box"/>
+  <text x="910" y="176" class="s" font-weight="700">Wazuh manager</text>
+  <text x="910" y="195" class="xs">• Decodificadores y reglas</text>
+  <text x="910" y="211" class="xs">• Reglas propias 100100-100123</text>
+  <text x="910" y="227" class="xs">• Correlación (frecuencia/tiempo)</text>
+  <text x="910" y="243" class="xs">• Detección de vulnerabilidades</text>
+  <text x="910" y="259" class="xs">• Respuesta activa (100101, 5763)</text>
+  <text x="910" y="281" class="m">:1514 :1515 ← solo .10</text>
+  <rect x="1118" y="156" width="100" height="64" rx="6" class="box"/>
+  <text x="1128" y="176" class="s" font-weight="700">Indexer</text>
+  <text x="1128" y="194" class="xs">alertas e</text>
+  <text x="1128" y="210" class="xs">inventario</text>
+  <text x="1118" y="240" class="xs">9200 y 55000</text>
+  <text x="1118" y="256" class="xs">no expuestos</text>
+  <line x1="1106" y1="188" x2="1118" y2="188" stroke="#777" stroke-width="1.2"/>
+  <line x1="888" y1="226" x2="900" y2="226" stroke="#777" stroke-width="1.2"/>
+
+  <!-- ===================== Servidor objetivo ===================== -->
+  <rect x="420" y="380" width="810" height="410" rx="10" fill="#eef7ef" stroke="#2e7d32" stroke-width="3"/>
+  <rect x="870" y="370" width="174" height="22" rx="4" fill="#2e7d32"/>
+  <text x="957" y="386" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">UFW: deny por defecto</text>
+  <text x="436" y="406" class="t">tiendacr-web (servidor objetivo)</text>
+  <text x="436" y="424" class="m">192.168.56.10 · Ubuntu 24.04 · SSH solo llaves, sin root · 22/80 solo desde .1 y .30</text>
+
+  <!-- eth1 -->
+  <rect x="408" y="560" width="24" height="90" rx="4" fill="#2e7d32"/>
+  <text x="420" y="610" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" transform="rotate(-90 420 605)">eth1</text>
+
+  <!-- Suricata -->
+  <rect x="450" y="440" width="230" height="96" rx="6" class="box"/>
+  <text x="460" y="460" class="s" font-weight="700">Suricata IDS (red)</text>
+  <text x="460" y="478" class="xs">AF_PACKET en eth1</text>
+  <text x="460" y="494" class="xs">ET Open (~53 500) + local.rules</text>
+  <text x="460" y="510" class="xs">sids 1000001-1000006</text>
+  <text x="460" y="527" class="m">→ /var/log/suricata/eve.json</text>
+
+  <!-- nginx -->
+  <rect x="450" y="580" width="230" height="80" rx="6" class="box"/>
+  <text x="460" y="600" class="s" font-weight="700">nginx :80 (proxy inverso)</text>
+  <text x="460" y="618" class="xs">único punto de entrada HTTP</text>
+  <text x="460" y="634" class="xs">(remediación: rate limit, sin PHP</text>
+  <text x="460" y="650" class="xs"> en subidas, nivel forzado)</text>
+
+  <!-- Docker -->
+  <rect x="712" y="440" width="240" height="330" rx="6" fill="#f1f6fd" stroke="#4a78b5" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text x="724" y="460" class="s" font-weight="700" fill="#2d5486">Docker (compose)</text>
+  <rect x="726" y="474" width="212" height="96" rx="6" class="box"/>
+  <text x="736" y="494" class="s" font-weight="700">DVWA (aplicación vulnerable)</text>
+  <text x="736" y="512" class="m">127.0.0.1:4280 → :80</text>
+  <text x="736" y="530" class="xs">no se publica en 0.0.0.0</text>
+  <text x="736" y="546" class="xs">(evita que Docker salte UFW)</text>
+  <text x="736" y="562" class="xs">nivel low / impossible</text>
+  <rect x="726" y="590" width="212" height="62" rx="6" class="box"/>
+  <text x="736" y="610" class="s" font-weight="700">MariaDB</text>
+  <text x="736" y="628" class="m">3306 · red interna Docker</text>
+  <text x="736" y="644" class="xs">sin puerto publicado</text>
+  <rect x="726" y="672" width="212" height="84" rx="6" class="box"/>
+  <text x="736" y="692" class="s" font-weight="700">Volumen de subidas</text>
+  <text x="736" y="710" class="m">/opt/dvwa/uploads (host)</text>
+  <text x="736" y="726" class="xs">montado en el contenedor</text>
+  <text x="736" y="742" class="xs">vigilado por FIM en tiempo real</text>
+  <line x1="832" y1="570" x2="832" y2="590" stroke="#555" stroke-width="1.4" marker-end="url(#aGray)"/>
+
+  <!-- Agente Wazuh -->
+  <rect x="984" y="440" width="230" height="208" rx="6" class="box"/>
+  <text x="994" y="460" class="s" font-weight="700">Agente Wazuh (host)</text>
+  <text x="994" y="480" class="xs">logcollector:</text>
+  <text x="1004" y="496" class="m">nginx access/error log</text>
+  <text x="1004" y="511" class="m">eve.json · ufw.log</text>
+  <text x="1004" y="526" class="m">journald (sshd, sudo)</text>
+  <text x="994" y="546" class="xs">FIM realtime:</text>
+  <text x="1004" y="562" class="m">uploads, /etc/nginx,</text>
+  <text x="1004" y="577" class="m">/etc/ssh, authorized_keys</text>
+  <text x="994" y="597" class="xs">syscollector → vulnerabilidades</text>
+  <text x="994" y="615" class="xs">SCA (CIS Ubuntu 24.04)</text>
+  <text x="994" y="636" class="xs" font-weight="700" fill="#d35400">active-response: firewall-drop</text>
+
+  <!-- iptables -->
+  <rect x="984" y="668" width="230" height="102" rx="6" fill="#fff3e8" stroke="#d35400" stroke-width="1.4"/>
+  <text x="994" y="688" class="s" font-weight="700" fill="#a04000">iptables / UFW</text>
+  <text x="994" y="707" class="m">INPUT #1: DROP &lt;IP atacante&gt;</text>
+  <text x="994" y="723" class="xs">insertado antes de las cadenas UFW</text>
+  <text x="994" y="739" class="xs">bloqueo temporal de 600 s</text>
+  <text x="994" y="755" class="xs">lista blanca: .1 (laptop), .20 (SIEM)</text>
+  <line x1="1099" y1="648" x2="1099" y2="668" stroke="#d35400" stroke-width="1.6" marker-end="url(#aOrange)"/>
+
+  <!-- ===================== Flujos ===================== -->
+  <!-- Kali -> eth1 (ataques) -->
+  <path d="M314,630 L406,630" stroke="#c0392b" stroke-width="2.6" fill="none" marker-end="url(#aRed)"/>
+  <text x="318" y="620" class="lbl" fill="#c0392b">ataques</text>
+  <text x="318" y="648" class="m" fill="#c0392b">22, 80/tcp</text>
+
+  <!-- Laptop -> eth1 (admin) -->
+  <path d="M250,230 L250,300 L380,300 L380,580 L406,580" stroke="#555" stroke-width="1.8" fill="none" marker-end="url(#aGray)"/>
+  <text x="258" y="292" class="xs" fill="#555">SSH 22 (llaves) · HTTP 80</text>
+
+  <!-- Laptop -> Dashboard -->
+  <path d="M314,130 L700,130 L700,226 L754,226" stroke="#1f5fa8" stroke-width="2.2" fill="none" marker-end="url(#aBlue)"/>
+  <text x="330" y="122" class="lbl" fill="#1f5fa8">HTTPS 443 · panel del SOC</text>
+
+  <!-- eth1 -> Suricata (copia del trafico) -->
+  <path d="M432,575 L440,575 L440,488 L448,488" stroke="#2e7d32" stroke-width="1.6" stroke-dasharray="4 3" fill="none" marker-end="url(#aGreen)"/>
+  <!-- eth1 -> nginx -->
+  <path d="M432,620 L448,620" stroke="#555" stroke-width="1.8" fill="none" marker-end="url(#aGray)"/>
+  <!-- nginx -> DVWA -->
+  <path d="M680,600 L700,600 L700,522 L724,522" stroke="#555" stroke-width="1.8" fill="none" marker-end="url(#aGray)"/>
+  <!-- logs -> agente -->
+  <path d="M680,500 L696,500 L696,433 L970,433 L970,500 L982,500" stroke="#1e8449" stroke-width="1.4" stroke-dasharray="4 3" fill="none" marker-end="url(#aGreen)"/>
+  <!-- uploads -> FIM -->
+  <path d="M938,714 L962,714 L962,570 L982,570" stroke="#1e8449" stroke-width="1.4" stroke-dasharray="4 3" fill="none" marker-end="url(#aGreen)"/>
+
+  <!-- Agente -> SIEM -->
+  <path d="M1060,440 L1060,312" stroke="#1e8449" stroke-width="2.4" fill="none" marker-end="url(#aGreen)"/>
+  <text x="900" y="350" class="lbl" fill="#1e8449">eventos 1514/tcp</text>
+  <text x="900" y="366" class="xs" fill="#1e8449">registro 1515/tcp</text>
+  <!-- SIEM -> Agente (orden AR) -->
+  <path d="M1200,312 L1200,438" stroke="#d35400" stroke-width="2.2" stroke-dasharray="7 4" fill="none" marker-end="url(#aOrange)"/>
+  <text x="1072" y="342" class="lbl" fill="#d35400">orden de</text>
+  <text x="1072" y="358" class="lbl" fill="#d35400">respuesta</text>
+  <text x="1072" y="374" class="lbl" fill="#d35400">activa</text>
+
+  <!-- Leyenda -->
+  <g transform="translate(44,742)">
+    <text x="0" y="0" class="s" font-weight="700">Leyenda</text>
+    <line x1="0" y1="16" x2="34" y2="16" stroke="#c0392b" stroke-width="2.6"/><text x="42" y="20" class="xs">Ataque controlado</text>
+    <line x1="160" y1="16" x2="194" y2="16" stroke="#555" stroke-width="1.8"/><text x="202" y="20" class="xs">Tráfico permitido</text>
+    <line x1="0" y1="38" x2="34" y2="38" stroke="#1e8449" stroke-width="2" stroke-dasharray="4 3"/><text x="42" y="42" class="xs">Telemetría / alertas</text>
+    <line x1="160" y1="38" x2="194" y2="38" stroke="#d35400" stroke-width="2" stroke-dasharray="7 4"/><text x="202" y="42" class="xs">Respuesta automática</text>
+    <rect x="0" y="52" width="34" height="12" fill="none" stroke="#2e7d32" stroke-width="3"/><text x="42" y="62" class="xs">Grupo de seguridad (UFW, deny por defecto)</text>
+  </g>
+</svg>

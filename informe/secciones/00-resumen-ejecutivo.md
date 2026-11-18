@@ -1,0 +1,40 @@
+# Resumen ejecutivo
+
+TiendaCR, una tienda en línea ficticia, no contaba con capacidad de detección ni de respuesta ante ataques a su servidor web. El equipo diseñó, desplegó y operó un **mini centro de operaciones de seguridad (SOC)** en un laboratorio local de VirtualBox. Consta de tres máquinas:
+
+- un **servidor objetivo** con la aplicación vulnerable DVWA en contenedores;
+- un **servidor SIEM** con Wazuh 4.14;
+- una **máquina atacante** con Kali Linux.
+
+Las tres se aprovisionan de forma reproducible con Vagrant.
+
+**Investigación (fase 1):**
+
+- Se compararon seis herramientas de seguridad: dos de proveedores cloud y cuatro de código abierto.
+- Se eligió **Wazuh** (monitoreo de host y SIEM) junto con **Suricata** (IDS de red), porque cubren las capas de host y de red, ofrecen respuesta automática y no tienen costo.
+- El análisis de riesgos con **NIST SP 800-30** identificó **12 riesgos**: 5 críticos, 4 altos y 3 medios.
+- Se calcularon los puntajes **CVSS v3.1** de cinco vulnerabilidades reales, incluida la **CVE-2025-53537**, presente en el propio IDS.
+
+**Implementación (fase 2):**
+
+- **Control de acceso:** denegación por defecto en ambos servidores, acceso solo desde las IP del equipo y SSH solo con llaves.
+- **Reglas propias:** 6 reglas de detección en Suricata y 9 en Wazuh, todas con su técnica MITRE ATT&CK.
+- **Respuesta automática:** bloquea la IP atacante en el firewall. En la prueba controlada actuó en **1,07 s**.
+
+<span class="todo">COMPLETAR con los resultados de los ataques:</span>
+
+- De los cuatro ataques controlados ejecutados, se detectaron <span class="todo">COMPLETAR</span>.
+- El tiempo medio hasta la alerta fue de <span class="todo">COMPLETAR</span> s.
+- La respuesta automática bloqueó al atacante en <span class="todo">COMPLETAR</span> s.
+
+**Resultado:**
+
+- Después de la remediación (nivel de seguridad *impossible*, límite de velocidad en el login, prohibición de ejecutar PHP en las subidas, cabeceras de seguridad y actualizaciones), la repetición de los ataques 2 y 3 <span class="todo">COMPLETAR: no obtuvo contraseña ni datos</span>.
+- El riesgo residual baja a **0 críticos y 0 altos**: quedan 9 medios y 3 bajos.
+
+**Recomendaciones principales para producción:**
+
+- WAF con OWASP CRS.
+- MFA en el inicio de sesión.
+- Respaldos cifrados.
+- Activar AWS GuardDuty si la tienda se migra a la nube.

@@ -1,0 +1,28 @@
+# Reglas propias de TiendaCR (sid 1000000-1000999)
+# $HOME_NET = 192.168.56.10 (servidor objetivo). http.uri llega normalizado (URL decodificada).
+
+# Verificacion de la cadena IDS -> agente -> SIEM (no es una deteccion de ataque).
+# Uso: curl http://192.168.56.10/prueba-ids-tiendacr
+alert http any any -> $HOME_NET 80 (msg:"TIENDACR prueba de integracion IDS-SIEM"; flow:established,to_server; http.uri; content:"/prueba-ids-tiendacr"; classtype:misc-activity; sid:1000000; rev:1;)
+
+# --- Ataque 1: reconocimiento (MITRE T1046) ---------------------------------
+# Muchos SYN sin ACK desde una misma IP en poco tiempo = barrido de puertos.
+# Umbral: 25 SYN en 10 s; una navegacion normal abre pocas conexiones.
+alert tcp any any -> $HOME_NET any (msg:"TIENDACR Reconocimiento: barrido de puertos TCP SYN"; flow:stateless; flags:S,12; detection_filter:track by_src, count 25, seconds 10; classtype:attempted-recon; sid:1000001; rev:2;)
+
+# --- Ataque 2: fuerza bruta web (MITRE T1110.001) ---------------------------
+# Repeticion de intentos de login contra el modulo de autenticacion de la app.
+alert http any any -> $HOME_NET 80 (msg:"TIENDACR Fuerza bruta: intentos repetidos de login web"; flow:established,to_server; http.uri; content:"/vulnerabilities/brute/"; content:"password="; distance:0; detection_filter:track by_src, count 10, seconds 60; classtype:attempted-user; sid:1000002; rev:1;)
+
+# --- Ataque 3: inyeccion SQL (MITRE T1190) ----------------------------------
+# Combinacion UNION ... SELECT en la URI (extraccion de datos).
+alert http any any -> $HOME_NET 80 (msg:"TIENDACR SQLi: UNION SELECT en parametro HTTP"; flow:established,to_server; http.uri; content:"union"; nocase; content:"select"; nocase; distance:0; classtype:web-application-attack; sid:1000003; rev:1;)
+# Tautologia tipica: comilla seguida de OR/AND y comparacion (' or '1'='1, ' or 1=1).
+alert http any any -> $HOME_NET 80 (msg:"TIENDACR SQLi: tautologia con comilla y OR/AND"; flow:established,to_server; http.uri; content:"'"; pcre:"/'\s*(or|and)\s+['\"]?\w+['\"]?\s*=\s*['\"]?\w+/Ui"; classtype:web-application-attack; sid:1000004; rev:1;)
+
+# --- Ataque 3 (alternativo): path traversal / LFI (MITRE T1190) -------------
+alert http any any -> $HOME_NET 80 (msg:"TIENDACR Path traversal hacia archivos del sistema"; flow:established,to_server; http.uri; content:"../"; pcre:"/(\.\.\/){2,}.*(etc\/passwd|etc\/shadow|proc\/self)/Ui"; classtype:web-application-attack; sid:1000005; rev:1;)
+
+# --- Ataque 4: subida de web shell (MITRE T1505.003) ------------------------
+# Codigo PHP dentro del cuerpo de una subida de archivo a la aplicacion.
+alert http any any -> $HOME_NET 80 (msg:"TIENDACR Subida de archivo con codigo PHP (posible web shell)"; flow:established,to_server; http.method; content:"POST"; http.uri; content:"/upload"; nocase; http.request_body; content:"<?php"; nocase; classtype:web-application-attack; sid:1000006; rev:1;)
