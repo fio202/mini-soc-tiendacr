@@ -1,12 +1,12 @@
 @page {
   size: A4;
   margin: 2cm 1.9cm 2.1cm 1.9cm;
-  @top-right { content: "Mini SOC TiendaCR · ITI-922"; font: 8pt "Liberation Sans"; color: #777; }
-  @bottom-center { content: counter(page); font: 9pt "Liberation Sans"; color: #555; }
+  @top-right { content: "Mini SOC TiendaCR · ITI-922"; font: 8pt "Liberation Sans"; color: #000000; }
+  @bottom-center { content: counter(page); font: 9pt "Liberation Sans"; color: #000000; }
 }
 @page :first { @top-right { content: none; } @bottom-center { content: none; } }
 
-html { font-family: "Liberation Sans", "Noto Sans", sans-serif; font-size: 9.5pt; line-height: 1.35; color: #1b1b1b; }
+html { font-family: "Liberation Sans", "Noto Sans", sans-serif; font-size: 9.5pt; line-height: 1.35; color: #000000; }
 body { margin: 0; }
 p { margin: 0 0 6pt; text-align: justify; hyphens: auto; }
 ul, ol { margin: 0 0 6pt; padding-left: 16pt; }
@@ -40,20 +40,20 @@ blockquote p { margin: 2pt 0; }
 
 figure { margin: 6pt 0 10pt; text-align: center; page-break-inside: avoid; }
 figure img { width: 100%; }
-figcaption { font-size: 8.5pt; color: #555; margin-top: 3pt; }
+figcaption { font-size: 8.5pt; color: #000000; margin-top: 3pt; }
 
 .todo { background: #ffe94d; color: #5a4a00; font-weight: 700; padding: 0 3pt; border-radius: 2pt; }
 
 /* Portada */
 .portada { text-align: center; page-break-after: always; }
 .portada .inst { font-size: 13pt; font-weight: 700; margin-top: 10pt; text-align: center; }
-.portada .curso { font-size: 11pt; color: #444; text-align: center; }
+.portada .curso { font-size: 11pt; color: #000000; text-align: center; }
 .portada .bloque-titulo { margin: 46pt 0 18pt; }
 .portada h1 { font-size: 24pt; border: none; margin-bottom: 6pt; }
-.portada .sub { font-size: 12pt; color: #444; text-align: center; }
+.portada .sub { font-size: 12pt; color: #000000; text-align: center; }
 .portada img { width: 92%; margin: 6pt auto 22pt; border: 0.5pt solid #ccc; }
 .portada .autores p { text-align: center; margin: 2pt 0; font-size: 11pt; }
-.portada .fecha { margin-top: 12pt !important; color: #444; }
+.portada .fecha { margin-top: 12pt !important; color: #000000; }
 
 /* Índice */
 .indice { page-break-after: always; }
@@ -61,5 +61,5 @@ figcaption { font-size: 8.5pt; color: #555; margin-top: 3pt; }
 .indice li { margin: 2pt 0; }
 .indice li.toc1 { font-weight: 700; margin-top: 7pt; }
 .indice li.toc2 { padding-left: 14pt; font-size: 9.5pt; }
-.indice a { color: #1b1b1b; }
+.indice a { color: #000000; }
 .indice a::after { content: leader('.') target-counter(attr(href), page); }

@@ -12,36 +12,36 @@ Se compararon **seis herramientas**:
 - **dos de proveedores cloud:** AWS GuardDuty y Microsoft Defender for Cloud;
 - **cuatro de código abierto:** Wazuh, Suricata, CrowdSec y Falco.
 
-Los requisitos de recursos de Wazuh y Suricata se **midieron en nuestro laboratorio** el 17/11/2026, con 1 agente y unas 53 500 reglas de Suricata cargadas. El resto de los datos provienen de la documentación oficial de cada proyecto o proveedor.
+Los requisitos de recursos de Wazuh y Suricata se **midieron en nuestro laboratorio** el 17/11/2026, con 1 agente y unas 53 500 reglas de Suricata cargadas. Los demás datos se contrastaron con documentación oficial de proveedores y proyectos. Los costos dependen de funciones, volumen y región; la respuesta automática necesita configuración (Amazon Web Services, s.f.-b; Microsoft, s.f.-a, s.f.-b; Wazuh Inc., s.f.-a, s.f.-b; Open Information Security Foundation, s.f.-a; CrowdSec, s.f.-a; The Falco Project, s.f.).
 
 | Criterio | **AWS GuardDuty** (proveedor) | **Microsoft Defender for Cloud** (proveedor) | **Wazuh** (abierto) | **Suricata** (abierto) | **CrowdSec** (abierto) | **Falco** (abierto) |
 |---|---|---|---|---|---|---|
 | **Qué detecta o protege** | Amenazas en la **cuenta y la red** de AWS: credenciales comprometidas, instancias que se comunican con IP maliciosas, minería, reconocimiento. Planes opcionales para S3, EKS, malware y ejecución (*runtime*). | **Configuración** (postura, CSPM) e **host** (Defender for Servers: EDR, vulnerabilidades, FIM en el plan 2). Multinube. | **Host** (registros, FIM, SCA, rootcheck, vulnerabilidades) más **SIEM** central. También **identidades**, por los registros de autenticación. | **Red**: ataques en el tráfico (HTTP, DNS, TLS, SSH…), escaneos, *exploits*, malware en tránsito. | **Comportamiento por IP** en los registros: fuerza bruta, escaneos, *scrapers*, explotación web. | **Ejecución en host y contenedores**: llamadas al sistema anómalas (shell en un contenedor, escritura en `/etc`, escalamiento). |
 | **Cómo detecta** | Inteligencia de amenazas, **aprendizaje automático y anomalías** sobre CloudTrail, VPC Flow Logs y DNS. | Reglas de política (recomendaciones), análisis de comportamiento e inteligencia de Microsoft. | **Reglas y decodificadores** (XML) con correlación (frecuencia y tiempo), comparación de *hashes* (FIM) y bases de CVE. | **Firmas** (ET Open/Pro y reglas propias), análisis de protocolos y Lua. | **Escenarios** (*leaky bucket*) sobre registros analizados, más una lista de bloqueo **comunitaria**. | **Reglas** (YAML) sobre eventos del kernel vía eBPF. |
-| **Modelo de despliegue y recursos** | **SaaS sin agente**: se activa por región y no consume recursos de las VM. El plan de *runtime* sí usa un agente. | **SaaS** más un agente (Defender for Endpoint o Azure Arc para máquinas fuera de Azure). | Servidor central (indexer, manager y dashboard) más **agentes**. Guía oficial: 4 vCPU y 8 GB para 1-25 agentes. **Medido:** el indexer (Java) usa unos 1,7 GB de RSS; la VM SIEM usa 2,7 GB de 8 GB; el agente usa menos de 60 MB. | **Sensor** en la interfaz (AF_PACKET) o en línea como IPS. Los recursos dependen del tráfico y de las reglas. **Medido:** unos 540 MB de RSS. | Agente ligero (Go) por host, más *bouncers*. Consola central opcional (SaaS). | DaemonSet en Kubernetes o servicio en el host. Requiere eBPF o un módulo del kernel. |
-| **Costo y licencia** | Propietario. **Pago por volumen** de eventos analizados. Prueba gratuita de 30 días. | Propietario. CSPM básico gratuito. **Defender for Servers** cobra por servidor y hora (planes 1 y 2). | **GPLv2** (manager y agente) y Apache 2.0 (indexer basado en OpenSearch). Gratuito. Soporte y Wazuh Cloud de pago. | **GPLv2** (OISF). Gratuito. ET Open es gratuito; ET Pro es de pago. | Motor **MIT**. Gratuito. Consola con plan gratuito y planes de pago. | **Apache 2.0**, proyecto CNCF *graduated*. Gratuito. |
+| **Modelo de despliegue y recursos** | **SaaS sin agente** para las fuentes de telemetría tradicionales; los planes de *runtime* pueden usar agente. | **SaaS** con integración por agente: servidores de Azure, otras nubes y equipos locales compatibles pueden incorporarse mediante Azure Arc o Defender for Endpoint. | Servidor central (indexer, manager y dashboard) más **agentes**. Guía oficial: 4 vCPU y 8 GB para 1-25 agentes. **Medido:** el indexer (Java) usa unos 1,7 GB de RSS; la VM SIEM usa 2,7 GB de 8 GB; el agente usa menos de 60 MB. | **Sensor** en la interfaz (AF_PACKET) o en línea como IPS. Los recursos dependen del tráfico y de las reglas. **Medido:** unos 540 MB de RSS. | Agente ligero (Go) por host, más *bouncers*. Consola central opcional (SaaS). | DaemonSet en Kubernetes o servicio en el host. Requiere eBPF o un módulo del kernel. |
+| **Costo y licencia** | Propietario. **Costo variable** según fuente de datos, región, volumen y plan; prueba gratuita de 30 días para funciones elegibles. | Propietario. CSPM básico gratuito. **Defender for Servers** cobra por servidor y hora (planes 1 y 2). | **GPLv2** (manager y agente) y Apache 2.0 (indexer basado en OpenSearch). Gratuito. Soporte y Wazuh Cloud de pago. | **GPLv2** (OISF). Gratuito. ET Open es gratuito; ET Pro es de pago. | Motor **MIT**. Gratuito. Consola con plan gratuito y planes de pago. | **Apache 2.0**, proyecto CNCF *graduated*. Gratuito. |
 | **Respuesta automática** | **No bloquea por sí solo.** Los hallazgos van a EventBridge y de ahí a Lambda o SSM, que actúan (por ejemplo, modificar un grupo de seguridad o una NACL). | *Workflow automation* (Logic Apps). Defender for Endpoint puede **aislar** el equipo. | **Active response**: scripts en el agente (`firewall-drop`, `disable-account`, personalizados) disparados por reglas, con *timeout*. | Solo en **modo IPS** (en línea): `drop` y `reject`. En modo IDS solo alerta. | Es su fuerte: los **bouncers** bloquean en firewall, nginx, Cloudflare y otros. | Indirecta, con Falcosidekick o Falco Talon (matar un pod, etiquetar, notificar). |
 | **Integración** | Security Hub, Detective, EventBridge y SIEM externos. **Wazuh puede ingerir sus hallazgos.** | Microsoft Sentinel, Defender XDR, conectores para AWS y GCP. | Suricata, VirusTotal, GuardDuty, CloudTrail, Azure, GCP, Slack, PagerDuty, API REST. Mapeo MITRE ATT&CK. | Salida **EVE JSON** que lee cualquier SIEM (Wazuh, Elastic, Splunk). | API, *bouncers*, Prometheus, SIEM. | Falcosidekick (más de 50 destinos), Prometheus y SIEM. |
-| **Limitaciones** | Solo AWS. **No inspecciona el contenido** de los paquetes (solo metadatos de flujo), así que no ve una SQLi dentro de HTTP. Tiene costo variable. | Centrado en Azure. Costo por servidor. Las funciones avanzadas (FIM, JIT) solo están en el plan 2. | Requiere **afinar** reglas para evitar ruido. El indexer consume mucha memoria. No ve el contenido de la red por sí solo. | **No ve el tráfico cifrado** (TLS) sin terminarlo. Falsos positivos. En la nube necesita *traffic mirroring* o instalarse en el host. | Solo detecta lo que aparece en registros. No ofrece FIM ni vulnerabilidades. La lista comunitaria implica compartir señales. | Enfocado en contenedores y kernel. Sin inspección de red ni de aplicación. Las reglas por defecto son ruidosas. |
+| **Limitaciones** | Enfoque AWS; no es un IDS HTTP en línea para el tráfico de TiendaCR. Costo por consumo. | Requiere integrar los servidores en Azure. Admite equipos locales compatibles mediante Azure Arc; los planes avanzados tienen cargos y requisitos específicos. | Requiere **afinar** reglas para evitar ruido. El indexer consume mucha memoria. No ve el contenido de la red por sí solo. | **No ve el tráfico cifrado** (TLS) sin terminarlo. Falsos positivos. En la nube necesita *traffic mirroring* o instalarse en el host. | Solo detecta lo que aparece en registros. No ofrece FIM ni vulnerabilidades. La lista comunitaria implica compartir señales. | Enfocado en contenedores y kernel. Sin inspección de red ni de aplicación. Las reglas por defecto son ruidosas. |
 
 ### Justificación de las herramientas elegidas
 
-Se eligió **Wazuh + Suricata**:
+Se eligió **Wazuh + Suricata** como defensa en profundidad reproducible (Dotson, 2019; Guijarro Olivares et al., 2019):
 
 1. **Cubren las dos capas que exige el proyecto.**
    - Suricata ve el **contenido del tráfico**, como el *payload* de una SQLi en la URI o un escaneo, cosa que GuardDuty no puede ver con metadatos de flujo.
    - Wazuh ve el **host**: autenticación, integridad de archivos y vulnerabilidades del sistema.
    - Una web shell subida se detecta en las dos capas: Suricata con el sid 1000006 y el FIM de Wazuh con la regla 100110.
-2. **Wazuh funciona como SIEM central** e integra Suricata de forma nativa leyendo `eve.json`. Así hay un solo panel, como pide el enunciado.
-3. **Respuesta automática incluida** (*active response*) sin servicios adicionales.
-4. **Costo cero y despliegue local.** GuardDuty y Defender for Cloud requieren una cuenta en la nube, tienen costo variable y **no pueden monitorear VM de VirtualBox**.
+2. **Wazuh funciona como SIEM central** e integra las alertas de Suricata desde `eve.json`. Así hay un solo panel, como pide el enunciado (Wazuh Inc., s.f.-a).
+3. **Respuesta automática incluida** (*active response*) con scripts activados por reglas, como `firewall-drop` para bloqueos temporales (Wazuh Inc., s.f.-b).
+4. **Software libre y despliegue local.** GuardDuty protege recursos AWS. Defender for Cloud puede incorporar servidores locales compatibles mediante Azure Arc, pero exige integración con su plataforma y puede generar costos. Para este laboratorio aislado se priorizaron herramientas reproducibles y sin licencias comerciales (Microsoft, s.f.-a; Microsoft, s.f.-b).
 5. **Reproducibilidad.** Ambas son de código abierto, con configuración en archivos que se versionan en el repositorio.
 
 **Descartadas o complementarias:**
 
 - **CrowdSec:** es muy buena para el bloqueo, pero se solapa con la *active response* de Wazuh y no aporta FIM ni detección de vulnerabilidades.
 - **Falco:** sería valiosa para detectar una shell **dentro** del contenedor, pero los ataques del proyecto son de red y web. Se propone como mejora.
-- **En un despliegue real en AWS** se recomienda **sumar GuardDuty**: es barato, no requiere agente y detecta amenazas a nivel de cuenta (credenciales filtradas o llamadas a la API desde IP maliciosas) que ni Wazuh ni Suricata ven. Wazuh puede ingerir sus hallazgos.
+- **En un despliegue real en AWS** se puede **sumar GuardDuty** para detectar amenazas a nivel de cuenta y servicios que no son visibles para Wazuh o Suricata. Su costo dependerá de la región, el volumen de eventos y los planes activados (Amazon Web Services, s.f.-b).
 
 ---
 
@@ -49,7 +49,7 @@ Se eligió **Wazuh + Suricata**:
 
 **Proveedor de referencia:** AWS, servicio Amazon EC2, que es infraestructura como servicio (IaaS).
 
-AWS lo resume así: AWS es responsable de la seguridad **"de"** la nube y el cliente de la seguridad **"en"** la nube. En IaaS el cliente asume **la mayor parte** de la responsabilidad, porque controla el sistema operativo hacia arriba.
+AWS distingue la seguridad **"de"** la nube, a cargo del proveedor, de la seguridad **"en"** la nube, que corresponde al cliente. En IaaS, el cliente administra el sistema operativo y las capas superiores (Amazon Web Services, s.f.-a; Dotson, 2019).
 
 | Capa | Responsable en EC2 | Qué implica | Equivalente en nuestro laboratorio |
 |---|---|---|---|
@@ -75,7 +75,7 @@ AWS lo resume así: AWS es responsable de la seguridad **"de"** la nube y el cli
 
 ### Método
 
-Se aplicó **NIST SP 800-30 Rev. 1** de forma simplificada y semicuantitativa:
+Se aplicó **NIST SP 800-30 Rev. 1** de forma simplificada y semicuantitativa (Joint Task Force Transformation Initiative, 2012):
 
 1. Caracterización del sistema e **inventario de activos**.
 2. Identificación de **amenazas y vulnerabilidades** por activo.
@@ -94,7 +94,7 @@ Se aplicó **NIST SP 800-30 Rev. 1** de forma simplificada y semicuantitativa:
 | 4 Alta | Hay herramientas automatizadas públicas; la exposición es directa. | Interrupción de ventas o exposición de datos de clientes. |
 | 5 Muy alta | Explotable de forma trivial o ya observada. | Compromiso total, fuga masiva de datos personales o sanción legal. |
 
-**Nivel de riesgo:** 1-4 **Bajo** · 5-9 **Medio** · 10-16 **Alto** · 20-25 **Crítico**.
+**Nivel de riesgo:** 1-4 **Bajo** · 5-9 **Medio** · 10-16 **Alto** · 20-25 **Crítico**. Los puntajes reflejan el escenario sin mitigaciones; R09 supone una probabilidad baja de falla del SIEM, mientras que R12 asigna impacto directo bajo al reconocimiento por sí solo, sin ignorar su potencial como fase previa de otros ataques.
 
 ### 1. Inventario de activos y su valor
 
@@ -123,7 +123,7 @@ C = confidencialidad, I = integridad, D = disponibilidad, en una escala de 1 a 5
 | A1, A3 | Atacante externo → path traversal o LFI | Parámetro de archivo sin lista blanca | R05 |
 | A1, A9 | Atacante externo → XSS para robar la sesión de un cliente | Salida sin codificar; sin CSP | R06 |
 | A2, A5, A7 | Atacante externo → acceso directo a servicios internos | Puertos de BD, indexer o panel expuestos; Docker que se salta el firewall | R07 |
-| A3, A6 | Atacante → explotación de CVE conocidas | Kernel y paquetes desactualizados (6904 CVE detectadas por Wazuh) | R08 |
+| A3, A6 | Atacante → explotación de CVE conocidas | Kernel y paquetes desactualizados (total de hallazgos pendiente de verificar) | R08 |
 | A5 | Atacante o falla → pérdida de visibilidad del SOC | SIEM accesible desde la red atacante; punto único de falla | R09 |
 | A1, A9 | Error del propio SOC → bloqueo de clientes legítimos | Respuesta automática por umbral (falsos positivos, NAT compartido) | R10 |
 | A4, A8 | Error humano → credenciales publicadas | Archivos `.env` o de claves versionados por error | R11 |
@@ -183,10 +183,10 @@ Los puntajes de las vulnerabilidades de la aplicación se calcularon con la fór
 
 **Hallazgos de la detección de vulnerabilidades de Wazuh** (agente `tiendacr-web`, 17/11/2026):
 
-- **6904 CVE** en total: 238 críticas, 2241 altas, 2517 medias y 250 bajas.
+- El borrador indica **6.904 hallazgos**, pero las categorías anotadas (238 críticas, 2.241 altas, 2.517 medias y 250 bajas) suman **5.246**. Falta conciliar el total con un solo corte temporal del panel Wazuh antes de reportar cifras definitivas.
 - Casi todas corresponden al **kernel** `linux-image-6.8.0-86` que trae la imagen base, con puntajes de hasta 10.0.
 - Fuera del kernel solo aparecen `libhtp2` (V5) y `suricata-update`.
-- **Lección:** el componente de seguridad (el IDS) también es superficie de ataque y también hay que parchearlo. Además, el kernel vulnerable no se corrige solo con `apt upgrade`: hay que **reiniciar** con el kernel nuevo y retirar el antiguo.
+- **Lección:** el IDS también es superficie de ataque. En este laboratorio, `apt upgrade` no dejó actualizado el kernel `6.8.0-86`: queda pendiente instalar una versión HWE compatible, reiniciar y reevaluar las CVE.
 
 ### 5. Plan de tratamiento
 
@@ -199,7 +199,7 @@ Los puntajes de las vulnerabilidades de la aplicación se calcularon con la fór
 | R05 | 16 | **Mitigar** | Lista blanca de archivos (C1); Suricata 1000005 | Integrante 1 | 2.5, 2.8 |
 | R06 | 12 | **Mitigar** | Codificación de salida (C1); cabeceras CSP (C4) | Integrante 2 | 2.8 (C4) |
 | R07 | 20 | **Evitar** y mitigar | **Evitar:** la aplicación vulnerable nunca se publica en internet (red solo-anfitrión). **Mitigar:** denegación por defecto, BD sin publicar, Docker solo en `127.0.0.1` | Integrante 1 | 2.1, 2.2 |
-| R08 | 12 | **Mitigar** | `apt upgrade` y reinicio con kernel nuevo; actualizar la imagen; seguimiento en *Vulnerability Detection* | Integrante 2 | 2.3, 2.8 (C5) |
+| R08 | 12 | **Mitigar parcialmente** | Parches disponibles y revisión de imágenes; actualización efectiva del kernel y reinicio aún pendientes; seguimiento en *Vulnerability Detection* | Integrante 2 | 2.3, 2.8 (C5) |
 | R09 | 8 | **Aceptar** (laboratorio) / **Transferir** (producción) | SIEM en una VM separada con firewall propio. En producción: servicio gestionado (Wazuh Cloud) con un acuerdo de disponibilidad | Integrante 1 | 2.2 |
 | R10 | 9 | **Aceptar** (monitoreado) | Bloqueo temporal de 600 s, lista blanca, solo reglas de alta certeza | Integrante 2 | 2.6 |
 | R11 | 12 | **Mitigar** | `.gitignore`, claves generadas dentro de las VM, revisión antes de cada commit | Ambos | Repositorio |

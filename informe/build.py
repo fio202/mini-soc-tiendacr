@@ -19,14 +19,15 @@ from weasyprint import HTML
 
 # ----------------------------------------------------------------- DATOS DE PORTADA
 CONFIG = {
-    "institucion": "COMPLETAR: Universidad / Sede",
+    "institucion": "Universidad Técnica Nacional (UTN) - Sede Regional de San Carlos",
     "curso": "ITI-922 Seguridad de TI II",
-    "profesor": "Prof. Marcos C.",
-    "titulo": "Proyecto 2: Mini SOC en la nube",
-    "subtitulo": "Diseño, monitoreo, ataque controlado y respuesta para TiendaCR",
-    "integrantes": ["COMPLETAR Nombre Apellido1 (carné)", "COMPLETAR Nombre Apellido2 (carné)"],
+    "profesor": "Prof. Marcos Castro",
+    "titulo": "Proyecto 2: Mini SOC TiendaCR",
+    "subtitulo": "Laboratorio local con Wazuh, Suricata, monitoreo y respuesta a incidentes",
+    "integrantes": ["Fiorella Zamora ",
+    "Harold Saborío Arce"],
     "fecha": "18 de noviembre de 2026",
-    "pdf": "P1_Apellido1_Apellido2.pdf",   # cambiar por los apellidos reales
+    "pdf": "P1_Zamora_Saborio.pdf",   # cambiar por los apellidos reales
 }
 
 RAIZ = Path(__file__).resolve().parent.parent

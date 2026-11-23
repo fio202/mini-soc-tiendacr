@@ -1,16 +1,13 @@
 # Declaración de uso de inteligencia artificial
 
-<span class="todo">COMPLETAR: revisar que refleje con exactitud cómo la usó el equipo.</span>
+El equipo reconoce el uso de herramientas de inteligencia artificial como **asistentes de apoyo** durante la preparación del proyecto. El borrador del repositorio documenta el uso de **Claude Code (Anthropic)** para proponer código, configuraciones y textos. Adicionalmente, **ChatGPT (OpenAI)** se utilizó para apoyar la revisión editorial y el contraste de afirmaciones con documentación oficial.
 
-Según las reglas del proyecto, el equipo declara que usó **Claude (Anthropic)**, mediante Claude Code, como asistente en las siguientes tareas:
-
-| Tarea | Uso de la IA | Trabajo del equipo |
+| Actividad | Apoyo de la IA | Responsabilidad humana |
 |---|---|---|
-| Aprovisionamiento (Vagrantfile, scripts, configuración de nginx y Docker) | Generó los borradores de los scripts y diagnosticó errores de despliegue | Revisión, ejecución y verificación en el laboratorio |
-| Reglas propias de Suricata y Wazuh, respuesta activa | Propuso las reglas y las pruebas con `wazuh-logtest` | <span class="todo">COMPLETAR</span>: validación con los ataques reales y ajustes |
-| Investigación (fase 1) y análisis de riesgos | Redactó el borrador de la comparativa y de la matriz, y calculó los CVSS con la fórmula oficial | <span class="todo">COMPLETAR</span>: verificación de fuentes y de valoraciones |
-| Plan de respuesta a incidentes y documentación | Redactó los borradores | <span class="todo">COMPLETAR</span>: adaptación de roles y tiempos |
-| Diagrama de arquitectura | Generó el SVG | Revisión |
-| Ataques controlados (2.4) | No se usó para ejecutar ataques | Ejecución, medición y documentación de la evidencia |
+| Aprovisionamiento y configuración (Vagrant, Docker, nginx y Wazuh) | Propuestas de scripts y ayuda para interpretar errores de configuración. | Revisar código, ejecutar el despliegue y verificar su funcionamiento en el laboratorio. |
+| Reglas de Suricata y Wazuh | Sugerencias para reglas y pruebas de detección y respuesta. | Comprobar sintaxis, umbrales, alertas y bloqueos con los registros reales. |
+| Investigación, análisis de riesgos y referencias | Borradores, organización de tablas, revisión de redacción y búsqueda de fuentes. | Contrastar licencias, costos, citas y normativa con las publicaciones oficiales; decidir las valoraciones de riesgo. |
+| Plan de respuesta a incidentes e informe | Apoyo para estructurar el procedimiento, revisar ortografía y presentar hallazgos. | Asignar roles y tiempos, documentar las decisiones y aprobar el informe. |
+| Diagrama y evidencia experimental | Herramientas de apoyo para elaborar o revisar la documentación. | Corroborar la arquitectura real; ejecutar las pruebas en Kali y obtener capturas sin fabricar resultados. |
 
-Todo el contenido generado con IA fue revisado por el equipo. La comprensión del proyecto la demuestran ambos integrantes en la defensa oral.
+**Límites del uso:** la IA no se considera fuente de evidencia experimental. Los tiempos, bloqueos, alertas y resultados de los ataques deben provenir de las máquinas virtuales y de las capturas obtenidas por el equipo. Las correcciones documentales no sustituyen las pruebas. Cada integrante debe comprender y poder defender el trabajo presentado.

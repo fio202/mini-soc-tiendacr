@@ -15,9 +15,9 @@
 
 | Rol | Responsabilidades | Titular | Suplente |
 |---|---|---|---|
-| Analista SOC (N1) | Triaje de alertas, apertura del incidente, evidencia inicial | ✏️ Integrante 1 | ✏️ Integrante 2 |
-| Responsable de incidentes (IR lead) | Severidad, decisiones de contención, bitácora, cierre | ✏️ Integrante 2 | ✏️ Integrante 1 |
-| Administrador de sistemas | Contención y erradicación (firewall, contenedores, nginx) | ✏️ Integrante 1 | ✏️ Integrante 2 |
+| Analista SOC (N1) | Triaje de alertas, apertura del incidente, evidencia inicial | Harold Saborío Arce | Fiorella Zamora |
+| Responsable de incidentes (IR lead) | Severidad, decisiones de contención, bitácora, cierre | Fiorella Zamora | Harold Saborío Arce |
+| Administrador de sistemas | Contención y erradicación (firewall, contenedores, nginx) | Harold Saborío Arce | Fiorella Zamora |
 | Gerencia de TiendaCR (simulado) | Aprobar sacar la tienda de línea; comunicación externa | — | — |
 | Asesoría legal (simulado) | Evaluar las obligaciones de notificación (Ley 8968) | — | — |
 
@@ -37,6 +37,6 @@
 - **Un IDS detecta el intento, no el éxito.** El triaje debe revisar la respuesta HTTP para distinguir SEV-1 de SEV-2.
 - **Se agregó la prohibición de ejecutar PHP en las subidas (C3)**, porque una SQLi exitosa suele seguirse de una web shell.
 
-**Notificación:** si hubiera datos personales reales, la Ley 8968 de Costa Rica y su reglamento obligan a informar a los titulares y a la PRODHAB en el plazo que fija el reglamento (✏️ verificar: 5 días hábiles). En el laboratorio no aplica.
+**Notificación de datos personales:** los artículos 38 y 39 del Reglamento a la Ley 8968 (Decreto Ejecutivo N.º 37554-JP) establecen que, ante una vulnerabilidad que afecte datos personales, el responsable debe comunicarla a los titulares afectados **dentro de cinco días hábiles desde su ocurrencia**, iniciar la revisión exhaustiva en ese plazo e informar a los titulares y a la PRODHAB sobre la naturaleza del incidente, los datos comprometidos, las medidas inmediatas y los medios de información. Este escenario usa datos ficticios, por lo que no se configura una brecha real que notificar (Poder Ejecutivo de Costa Rica, 2012).
 
 El procedimiento detallado, con comandos y plantilla de bitácora, está en `docs/2.7-plan-respuesta-incidentes.md`.
