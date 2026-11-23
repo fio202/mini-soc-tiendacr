@@ -13,7 +13,9 @@ Así, los ataques 2 y 3 se repiten en idénticas condiciones antes y después.
 | C2 | Intentos de login ilimitados | `limit_req` de 10 por minuto por IP (ráfaga de 5) en `/login.php` y `/vulnerabilities/brute/` → **429** | `200 200 200 200 429 429 …` |
 | C3 | Ejecución de archivos subidos | **403** a `.php`, `.phtml` y `.phar` bajo `/hackable/uploads/` | 403 |
 | C4 | Clickjacking, MIME sniffing y XSS | Cabeceras CSP, `X-Frame-Options`, `X-Content-Type-Options` y `Referrer-Policy` | Las 4 presentes |
-| C5 | Paquetes con CVE | `apt upgrade` (más el reinicio con el kernel nuevo) y `docker compose pull` | ✏️ CVE en el panel después de remediar |
+| C5 | Paquetes con CVE | `apt upgrade` y revisión de imágenes; instalar un kernel HWE compatible y reiniciar siguen pendientes. | ✏️ CVE en el panel después de remediar |
+
+**Riesgo residual C5:** el kernel `6.8.0-86` **no quedó actualizado** con `apt upgrade` en la evidencia disponible. Es necesario instalar el kernel HWE compatible, reiniciar el servidor, verificar `uname -r` y volver a revisar las CVE con Wazuh. Hasta entonces, las vulnerabilidades asociadas al kernel permanecen como riesgo residual y **debe revisarse el puntaje R08** antes de afirmar que todos los riesgos altos desaparecieron.
 
 **Comparación antes / después** (misma herramienta y mismos parámetros):
 

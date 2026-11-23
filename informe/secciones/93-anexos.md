@@ -2,7 +2,7 @@
 
 ## Anexo A. Repositorio
 
-**URL:** <span class="todo">COMPLETAR (repositorio público en GitHub, compartido con el profesor)</span>
+**URL:** https://github.com/fio202/mini-soc-tiendacr
 
 | Ruta | Contenido |
 |---|---|
