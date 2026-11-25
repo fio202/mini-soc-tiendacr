@@ -12,7 +12,7 @@ Se compararon **seis herramientas**:
 - **dos de proveedores cloud:** AWS GuardDuty y Microsoft Defender for Cloud;
 - **cuatro de código abierto:** Wazuh, Suricata, CrowdSec y Falco.
 
-Los requisitos de recursos de Wazuh y Suricata se **midieron en nuestro laboratorio** el 17/11/2026, con 1 agente y unas 53 500 reglas de Suricata cargadas. Los demás datos se contrastaron con documentación oficial de proveedores y proyectos. Los costos dependen de funciones, volumen y región; la respuesta automática necesita configuración (Amazon Web Services, s.f.-b; Microsoft, s.f.-a, s.f.-b; Wazuh Inc., s.f.-a, s.f.-b; Open Information Security Foundation, s.f.-a; CrowdSec, s.f.-a; The Falco Project, s.f.).
+Los requisitos de recursos de Wazuh y Suricata se **midieron en nuestro laboratorio** el 17/11/2026, con 1 agente y unas 53 500 reglas de Suricata cargadas. Los demás datos se contrastaron con documentación oficial de proveedores y proyectos. Los costos dependen de funciones, volumen y región; la respuesta automática necesita configuración (Amazon Web Services, s.f.-b; Microsoft, s.f.-a, s.f.-b; Wazuh Inc., s.f.-a, s.f.-b; Open Information Security Foundation, s.f.-a; CrowdSec, s.f.-a; The Falco Project, s.f.). La descripción de GuardDuty y de sus fuentes de datos proviene de su guía de usuario (Amazon Web Services, s.f.-c), y la de Defender for Cloud, de su documentación oficial (Microsoft, s.f.-c).
 
 | Criterio | **AWS GuardDuty** (proveedor) | **Microsoft Defender for Cloud** (proveedor) | **Wazuh** (abierto) | **Suricata** (abierto) | **CrowdSec** (abierto) | **Falco** (abierto) |
 |---|---|---|---|---|---|---|
@@ -29,17 +29,17 @@ Los requisitos de recursos de Wazuh y Suricata se **midieron en nuestro laborato
 Se eligió **Wazuh + Suricata** como defensa en profundidad reproducible (Dotson, 2019; Guijarro Olivares et al., 2019):
 
 1. **Cubren las dos capas que exige el proyecto.**
-   - Suricata ve el **contenido del tráfico**, como el *payload* de una SQLi en la URI o un escaneo, cosa que GuardDuty no puede ver con metadatos de flujo.
+   - Suricata ve el **contenido del tráfico**, como el *payload* de una SQLi en la URI o un escaneo, cosa que GuardDuty no puede ver con metadatos de flujo (Open Information Security Foundation, s.f.-b; Amazon Web Services, s.f.-c).
    - Wazuh ve el **host**: autenticación, integridad de archivos y vulnerabilidades del sistema.
    - Una web shell subida se detecta en las dos capas: Suricata con el sid 1000006 y el FIM de Wazuh con la regla 100110.
 2. **Wazuh funciona como SIEM central** e integra las alertas de Suricata desde `eve.json`. Así hay un solo panel, como pide el enunciado (Wazuh Inc., s.f.-a).
 3. **Respuesta automática incluida** (*active response*) con scripts activados por reglas, como `firewall-drop` para bloqueos temporales (Wazuh Inc., s.f.-b).
-4. **Software libre y despliegue local.** GuardDuty protege recursos AWS. Defender for Cloud puede incorporar servidores locales compatibles mediante Azure Arc, pero exige integración con su plataforma y puede generar costos. Para este laboratorio aislado se priorizaron herramientas reproducibles y sin licencias comerciales (Microsoft, s.f.-a; Microsoft, s.f.-b).
+4. **Software libre y despliegue local.** GuardDuty protege recursos AWS. Defender for Cloud puede incorporar servidores locales compatibles mediante Azure Arc, pero exige integración con su plataforma y puede generar costos. Para este laboratorio aislado se priorizaron herramientas reproducibles y sin licencias comerciales (Microsoft, s.f.-a, s.f.-b, s.f.-c).
 5. **Reproducibilidad.** Ambas son de código abierto, con configuración en archivos que se versionan en el repositorio.
 
 **Descartadas o complementarias:**
 
-- **CrowdSec:** es muy buena para el bloqueo, pero se solapa con la *active response* de Wazuh y no aporta FIM ni detección de vulnerabilidades.
+- **CrowdSec:** es muy buena para el bloqueo, pero se solapa con la *active response* de Wazuh y no aporta FIM ni detección de vulnerabilidades. Además, su lista comunitaria implica compartir señales con terceros (CrowdSec, s.f.-b).
 - **Falco:** sería valiosa para detectar una shell **dentro** del contenedor, pero los ataques del proyecto son de red y web. Se propone como mejora.
 - **En un despliegue real en AWS** se puede **sumar GuardDuty** para detectar amenazas a nivel de cuenta y servicios que no son visibles para Wazuh o Suricata. Su costo dependerá de la región, el volumen de eventos y los planes activados (Amazon Web Services, s.f.-b).
 
@@ -122,7 +122,7 @@ C = confidencialidad, I = integridad, D = disponibilidad, en una escala de 1 a 5
 | A1, A3 | Atacante externo → subida de web shell y ejecución remota | Subida sin validar tipo ni contenido; el directorio permite ejecución | R04 |
 | A1, A3 | Atacante externo → path traversal o LFI | Parámetro de archivo sin lista blanca | R05 |
 | A1, A9 | Atacante externo → XSS para robar la sesión de un cliente | Salida sin codificar; sin CSP | R06 |
-| A2, A5, A7 | Atacante externo → acceso directo a servicios internos | Puertos de BD, indexer o panel expuestos; Docker que se salta el firewall | R07 |
+| A2, A5, A7 | Atacante externo → acceso directo a servicios internos | Puertos de BD, indexer o panel expuestos; Docker que se salta el firewall (Docker Inc., s.f.) | R07 |
 | A3, A6 | Atacante → explotación de CVE conocidas | Kernel y paquetes desactualizados (total de hallazgos pendiente de verificar) | R08 |
 | A5 | Atacante o falla → pérdida de visibilidad del SOC | SIEM accesible desde la red atacante; punto único de falla | R09 |
 | A1, A9 | Error del propio SOC → bloqueo de clientes legítimos | Respuesta automática por umbral (falsos positivos, NAT compartido) | R10 |
@@ -160,7 +160,7 @@ Riesgo inherente = sin controles. El riesgo residual se calcula en el punto 2.8.
 
 ### 4. Puntaje CVSS v3.1 de vulnerabilidades reales del proyecto
 
-Los puntajes de las vulnerabilidades de la aplicación se calcularon con la fórmula de la especificación CVSS v3.1 (FIRST, 2019) para el contexto de TiendaCR. El de CVE-2025-53537 es el que reporta la detección de vulnerabilidades de Wazuh en nuestro servidor.
+Los puntajes de las vulnerabilidades de la aplicación se calcularon con la fórmula de la especificación CVSS v3.1 (FIRST, 2019) para el contexto de TiendaCR, y sus categorías siguen el OWASP Top 10:2021 (OWASP Foundation, 2021). El de CVE-2025-53537 es el que reporta la detección de vulnerabilidades de Wazuh en nuestro servidor y coincide con el publicado en la NVD (National Institute of Standards and Technology, 2025).
 
 | # | Vulnerabilidad | Identificador | Vector CVSS v3.1 | Base | Severidad |
 |---|---|---|---|---|---|

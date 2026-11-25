@@ -1,6 +1,6 @@
 # Declaración de uso de inteligencia artificial
 
-El equipo reconoce el uso de herramientas de inteligencia artificial como **asistentes de apoyo** durante la preparación del proyecto. El borrador del repositorio documenta el uso de **Claude Code (Anthropic)** para proponer código, configuraciones y textos. Adicionalmente, **ChatGPT (OpenAI)** se utilizó para apoyar la revisión editorial y el contraste de afirmaciones con documentación oficial.
+El equipo usó herramientas de inteligencia artificial como **asistentes de apoyo** durante el proyecto: **Claude Code (Anthropic)** para proponer código, configuraciones y borradores de texto, y **ChatGPT (OpenAI)** para la revisión editorial y para contrastar afirmaciones con la documentación oficial.
 
 | Actividad | Apoyo de la IA | Responsabilidad humana |
 |---|---|---|

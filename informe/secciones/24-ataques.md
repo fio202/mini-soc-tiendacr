@@ -11,6 +11,7 @@
 - La primera alerta de cada regla se extrae del SIEM con `scripts/alertas-ataque.py`, que calcula la diferencia (T+).
 - Todas las VM usan la misma zona horaria (UTC-6).
 - El procedimiento completo está en `docs/2.4-ataques-y-detecciones.md`.
+- Las técnicas se clasificaron con la matriz MITRE ATT&CK para empresas (MITRE, s.f.).
 
 | N.º | Ataque | Comando o herramienta | Evidencia en registros | Regla que lo detectó | Tiempo hasta la alerta | MITRE ATT&CK |
 |---|---|---|---|---|---|---|

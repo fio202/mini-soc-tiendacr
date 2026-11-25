@@ -37,7 +37,7 @@ Así, los ataques 2 y 3 se repiten en idénticas condiciones antes y después.
 | R05 | Path traversal / LFI | 16 Alto | C1, Suricata 1000005 | 1 | 4 | **4 Bajo** | Mitigar |
 | R06 | XSS con robo de sesión | 12 Alto | C1, C4 | 2 | 3 | **6 Medio** | Mitigar |
 | R07 | Servicios internos expuestos | 20 Crítico | Denegación por defecto, BD sin publicar, Docker en 127.0.0.1 | 1 | 5 | **5 Medio** | Evitar y mitigar |
-| R08 | Paquetes vulnerables | 12 Alto | C5, detección de vulnerabilidades | 2 | 4 | **8 Medio** | Mitigar |
+| R08 | Paquetes vulnerables | 12 Alto | C5 parcial (kernel sin actualizar), detección de vulnerabilidades | 3 | 4 | **12 Alto** | Mitigar parcialmente |
 | R09 | Pérdida de visibilidad del SIEM | 8 Medio | SIEM separado con firewall propio | 1 | 4 | **4 Bajo** | Aceptar (laboratorio) / Transferir (producción) |
 | R10 | La respuesta automática bloquea clientes | 9 Medio | Bloqueo de 600 s, lista blanca, alta certeza | 2 | 3 | **6 Medio** | Aceptar |
 | R11 | Credenciales en el repositorio | 12 Alto | `.gitignore`, claves generadas en las VM | 1 | 4 | **4 Bajo** | Mitigar |
@@ -46,10 +46,11 @@ Así, los ataques 2 y 3 se repiten en idénticas condiciones antes y después.
 **Resultado:**
 
 - Antes de los controles: **5 críticos, 4 altos y 3 medios**.
-- Después: **0 críticos y 0 altos**; quedan 9 medios y 3 bajos.
+- Después: **0 críticos y 1 alto** (R08, por el kernel sin actualizar); quedan 8 medios y 3 bajos.
 
 **Mejoras pendientes:**
 
+- Instalar el kernel HWE, reiniciar y reevaluar R08 con Wazuh.
 - WAF con ModSecurity y OWASP CRS.
 - MFA.
 - Respaldos cifrados.

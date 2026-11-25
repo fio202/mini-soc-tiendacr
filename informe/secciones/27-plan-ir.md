@@ -1,7 +1,7 @@
 # 2.7 Plan de respuesta a incidentes
 
 **Incidente de referencia:** inyección SQL contra la aplicación de TiendaCR (ataque 3; T1190).
-**Marco:** NIST SP 800-61 Rev. 2.
+**Marco:** NIST SP 800-61 Rev. 2 (Cichonski et al., 2012).
 **Escalamiento por severidad:**
 
 | Severidad | Criterio | Escalamiento |

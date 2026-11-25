@@ -24,10 +24,9 @@ CONFIG = {
     "profesor": "Prof. Marcos Castro",
     "titulo": "Proyecto 2: Mini SOC TiendaCR",
     "subtitulo": "Laboratorio local con Wazuh, Suricata, monitoreo y respuesta a incidentes",
-    "integrantes": ["Fiorella Zamora ",
-    "Harold Saborío Arce"],
+    "integrantes": ["Fiorella Zamora Campos", "Harold Saborío Arce"],
     "fecha": "18 de noviembre de 2026",
-    "pdf": "P1_Zamora_Saborio.pdf",   # cambiar por los apellidos reales
+    "pdf": "P1_Zamora_Saborio.pdf",
 }
 
 RAIZ = Path(__file__).resolve().parent.parent

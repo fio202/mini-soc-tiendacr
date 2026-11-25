@@ -11,7 +11,7 @@ En el laboratorio local, el grupo de seguridad se implementa con **UFW** en cada
 | R01 | SIEM | ALLOW | .1 → 22/tcp | Kali **no** tiene acceso al SIEM | R09 compromiso del SIEM | Separación de funciones |
 | R10/R11 | SIEM | ALLOW | .10 → 1514 y 1515/tcp | Eventos y registro **solo** del agente monitoreado | Inyección de eventos falsos | Menor privilegio |
 | R12 | SIEM | ALLOW | .1 → 443/tcp | Panel solo para el analista | Acceso al panel por terceros | Menor privilegio |
-| — | Objetivo | (sin regla) | DVWA publicado en `127.0.0.1:4280`; MariaDB sin publicar | Docker se salta UFW si publica en `0.0.0.0`; nginx es el único punto de entrada | R07 | Defensa en profundidad |
+| — | Objetivo | (sin regla) | DVWA publicado en `127.0.0.1:4280`; MariaDB sin publicar | Docker se salta UFW si publica en `0.0.0.0` (Docker Inc., s.f.); nginx es el único punto de entrada | R07 | Defensa en profundidad |
 
 **SSH (ambos servidores):** archivo `00-hardening.conf`. Lleva el prefijo 00 porque sshd aplica el primer valor que lee.
 

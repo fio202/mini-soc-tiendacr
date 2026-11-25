@@ -30,7 +30,7 @@ Las tres se aprovisionan de forma reproducible con Vagrant.
 **Resultado:**
 
 - Después de la remediación (nivel de seguridad *impossible*, límite de velocidad en el login, prohibición de ejecutar PHP en las subidas, cabeceras de seguridad y actualizaciones), la repetición de los ataques 2 y 3 <span class="todo">COMPLETAR: no obtuvo contraseña ni datos</span>.
-- El riesgo residual baja a **0 críticos y 0 altos**: quedan 9 medios y 3 bajos.
+- El riesgo residual baja a **0 críticos y 1 alto** (R08, por el kernel sin actualizar): quedan 8 medios y 3 bajos.
 
 **Recomendaciones principales para producción:**
 

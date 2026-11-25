@@ -11,7 +11,7 @@
    - Con SSH solo con llaves, la fuerza bruta contra SSH deja de ser viable.
 3. **Detectar no es lo mismo que prevenir.** Después de la remediación, el IDS siguió alertando los intentos de SQLi. El éxito de la remediación se mide por el impacto (sin datos extraídos), no por la ausencia de alertas.
 4. **La respuesta automática es eficaz, pero tiene un costo.** Bloqueó al atacante en <span class="todo">COMPLETAR</span> s. Por el riesgo de bloquear clientes legítimos se limitó a reglas de alta certeza, con bloqueo temporal y lista blanca.
-5. **Las herramientas de seguridad también son superficie de ataque.** Wazuh detectó la CVE-2025-53537 en la librería HTTP de Suricata y 6904 CVE en el kernel de la imagen base. Mantener parchado el propio SOC es parte del trabajo.
+5. **Las herramientas de seguridad también son superficie de ataque.** Wazuh detectó la CVE-2025-53537 en la librería HTTP de Suricata y miles de hallazgos en el kernel de la imagen base, que `apt upgrade` no corrigió. Por eso R08 es el único riesgo que sigue alto: mantener parchado el propio SOC es parte del trabajo.
 6. **Infraestructura como código.** Definir el SOC en Vagrant y en scripts permitió reconstruirlo, alternar entre el estado vulnerable y el remediado, y documentar cada control de forma verificable.
 
 **Trabajo futuro:**
