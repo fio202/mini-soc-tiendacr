@@ -181,29 +181,29 @@ Los puntajes de las vulnerabilidades de la aplicación se calcularon con la fór
 - **Impacto de V3:** obtener la contraseña da acceso completo a la cuenta (C:H) con modificación limitada (I:L).
 - **Impacto de V5:** solo afecta la disponibilidad del IDS (A:H).
 
-**Hallazgos de la detección de vulnerabilidades de Wazuh** (agente `tiendacr-web`, 17/11/2026):
+**Hallazgos de la detección de vulnerabilidades de Wazuh** (agente `tiendacr-web`, consulta al índice `wazuh-states-vulnerabilities` del 25/11/2026):
 
-- El borrador indica **6.904 hallazgos**, pero las categorías anotadas (238 críticas, 2.241 altas, 2.517 medias y 250 bajas) suman **5.246**. Falta conciliar el total con un solo corte temporal del panel Wazuh antes de reportar cifras definitivas.
-- Casi todas corresponden al **kernel** `linux-image-6.8.0-86` que trae la imagen base, con puntajes de hasta 10.0.
-- Fuera del kernel solo aparecen `libhtp2` (V5) y `suricata-update`.
+- **7.541 hallazgos:** 88 críticos, 2.037 altos, 3.571 medios, 716 bajos y 1.129 sin severidad asignada por el proveedor.
+- **7.517** (99,7 %) corresponden al **kernel** `linux-image-6.8.0-86-generic` que trae la imagen base.
+- Fuera del kernel aparecen `nginx` y `nginx-common` (7 cada uno), `python3-oauthlib` (4), `libhtp2` (3, V5), `python3-jwt`, `libgstreamer1.0-0` y `suricata-update` (1 cada uno).
 - **Lección:** el IDS también es superficie de ataque. En este laboratorio, `apt upgrade` no dejó actualizado el kernel `6.8.0-86`: queda pendiente instalar una versión HWE compatible, reiniciar y reevaluar las CVE.
 
 ### 5. Plan de tratamiento
 
 | ID | Nivel inherente | Opción | Control propuesto | Responsable | Se implementa en |
 |---|---|---|---|---|---|
-| R01 | 25 | **Mitigar** | Consultas preparadas (nivel *impossible* forzado); detección con Suricata 1000003/4 y Wazuh 100122 | Integrante 1 | 2.5, 2.8 (C1) |
-| R02 | 20 | **Mitigar** | Límite de velocidad (429), bloqueo de cuenta y CSRF; regla 100101 con `firewall-drop` | Integrante 2 | 2.5, 2.6, 2.8 (C1, C2) |
-| R03 | 20 | **Mitigar** | SSH solo con llaves, sin root, `AllowUsers`, solo desde IP del equipo; regla 5763 con `firewall-drop` | Integrante 1 | 2.2, 2.6 |
-| R04 | 20 | **Mitigar** | Validación de subidas (C1); 403 a PHP en subidas (C3); FIM 100110; Suricata 1000006 | Integrante 2 | 2.3, 2.5, 2.8 (C3) |
-| R05 | 16 | **Mitigar** | Lista blanca de archivos (C1); Suricata 1000005 | Integrante 1 | 2.5, 2.8 |
-| R06 | 12 | **Mitigar** | Codificación de salida (C1); cabeceras CSP (C4) | Integrante 2 | 2.8 (C4) |
-| R07 | 20 | **Evitar** y mitigar | **Evitar:** la aplicación vulnerable nunca se publica en internet (red solo-anfitrión). **Mitigar:** denegación por defecto, BD sin publicar, Docker solo en `127.0.0.1` | Integrante 1 | 2.1, 2.2 |
-| R08 | 12 | **Mitigar parcialmente** | Parches disponibles y revisión de imágenes; actualización efectiva del kernel y reinicio aún pendientes; seguimiento en *Vulnerability Detection* | Integrante 2 | 2.3, 2.8 (C5) |
-| R09 | 8 | **Aceptar** (laboratorio) / **Transferir** (producción) | SIEM en una VM separada con firewall propio. En producción: servicio gestionado (Wazuh Cloud) con un acuerdo de disponibilidad | Integrante 1 | 2.2 |
-| R10 | 9 | **Aceptar** (monitoreado) | Bloqueo temporal de 600 s, lista blanca, solo reglas de alta certeza | Integrante 2 | 2.6 |
+| R01 | 25 | **Mitigar** | Consultas preparadas (nivel *impossible* forzado); detección con Suricata 1000003/4 y Wazuh 100122 | Harold Saborío Arce | 2.5, 2.8 (C1) |
+| R02 | 20 | **Mitigar** | Límite de velocidad (429), bloqueo de cuenta y CSRF; regla 100101 con `firewall-drop` | Fiorella Zamora Campos | 2.5, 2.6, 2.8 (C1, C2) |
+| R03 | 20 | **Mitigar** | SSH solo con llaves, sin root, `AllowUsers`, solo desde IP del equipo; regla 5763 con `firewall-drop` | Harold Saborío Arce | 2.2, 2.6 |
+| R04 | 20 | **Mitigar** | Validación de subidas (C1); 403 a PHP en subidas (C3); FIM 100110; Suricata 1000006 | Fiorella Zamora Campos | 2.3, 2.5, 2.8 (C3) |
+| R05 | 16 | **Mitigar** | Lista blanca de archivos (C1); Suricata 1000005 | Harold Saborío Arce | 2.5, 2.8 |
+| R06 | 12 | **Mitigar** | Codificación de salida (C1); cabeceras CSP (C4) | Fiorella Zamora Campos | 2.8 (C4) |
+| R07 | 20 | **Evitar** y mitigar | **Evitar:** la aplicación vulnerable nunca se publica en internet (red solo-anfitrión). **Mitigar:** denegación por defecto, BD sin publicar, Docker solo en `127.0.0.1` | Harold Saborío Arce | 2.1, 2.2 |
+| R08 | 12 | **Mitigar parcialmente** | Parches disponibles y revisión de imágenes; actualización efectiva del kernel y reinicio aún pendientes; seguimiento en *Vulnerability Detection* | Fiorella Zamora Campos | 2.3, 2.8 (C5) |
+| R09 | 8 | **Aceptar** (laboratorio) / **Transferir** (producción) | SIEM en una VM separada con firewall propio. En producción: servicio gestionado (Wazuh Cloud) con un acuerdo de disponibilidad | Harold Saborío Arce | 2.2 |
+| R10 | 9 | **Aceptar** (monitoreado) | Bloqueo temporal de 600 s, lista blanca, solo reglas de alta certeza | Fiorella Zamora Campos | 2.6 |
 | R11 | 12 | **Mitigar** | `.gitignore`, claves generadas dentro de las VM, revisión antes de cada commit | Ambos | Repositorio |
-| R12 | 5 | **Aceptar** | Superficie mínima; detección con Suricata 1000001 y Wazuh 100120 (solo alerta, sin bloqueo, para evitar suplantación de origen) | Integrante 1 | 2.5 |
+| R12 | 5 | **Aceptar** | Superficie mínima; detección con Suricata 1000001 y Wazuh 100120 (solo alerta, sin bloqueo, para evitar suplantación de origen) | Harold Saborío Arce | 2.5 |
 
 En producción, una **transferencia** adicional sería una póliza de ciberseguro para el impacto financiero de una fuga de datos (R01). La reevaluación con el **riesgo residual** está en `docs/2.8-remediacion-y-reevaluacion.md`.
 

@@ -63,3 +63,10 @@ figcaption { font-size: 8.5pt; color: #000000; margin-top: 3pt; }
 .indice li.toc2 { padding-left: 14pt; font-size: 9.5pt; }
 .indice a { color: #000000; }
 .indice a::after { content: leader('.') target-counter(attr(href), page); }
+
+/* Anexo B: capturas pequeñas en dos columnas */
+.evidencias { font-size: 0; }
+.evidencias figure { display: inline-block; vertical-align: top; width: 32%; margin: 0 2% 6pt 0; }
+.evidencias figure:nth-child(3n) { margin-right: 0; }
+.evidencias img { width: 100%; max-height: 3.3cm; object-fit: contain; border: 0.5pt solid #ccc; }
+.evidencias figcaption { font-size: 7.5pt; text-align: left; }

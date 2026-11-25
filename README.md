@@ -97,7 +97,7 @@ Los datos de la portada y el nombre del PDF se configuran en el bloque `CONFIG` 
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install markdown-it-py mdit-py-plugins weasyprint
-.venv/bin/python informe/build.py      # -> informe/P1_Apellido1_Apellido2.pdf
+.venv/bin/python informe/build.py      # -> informe/P1_Zamora_Saborio.pdf
 ```
 
 El script informa el número de páginas (límite: 20) y cuántas marcas `COMPLETAR` quedan pendientes.

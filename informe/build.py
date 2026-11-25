@@ -45,10 +45,10 @@ PARTES = [
     (SEC + "25-reglas-respuesta.md", 1, False),
     (SEC + "27-plan-ir.md", 1, False),
     (SEC + "28-remediacion.md", 1, False),
-    (SEC + "90-conclusiones.md", 0, True),
+    (SEC + "90-conclusiones.md", 0, False),
     (SEC + "91-declaracion-ia.md", 0, False),
     (SEC + "92-referencias.md", 0, False),
-    (SEC + "93-anexos.md", 0, True),
+    (SEC + "93-anexos.md", 0, False),
 ]
 
 TODO = '<span class="todo">COMPLETAR</span>'
@@ -97,6 +97,11 @@ def construir() -> None:
         bloques.append(preparar(ruta, nivel))
     cuerpo = md.render("\n\n".join(bloques))
     cuerpo = cuerpo.replace("COMPLETAR_MARK", TODO)
+
+    # Capturas de evidencias/: si el archivo aún no existe, se marca como pendiente
+    def img_o_pendiente(m):
+        return m.group(0) if (RAIZ / m.group(1)).exists() else f'{TODO}: <code>{m.group(1)}</code>'
+    cuerpo = re.sub(r'<img src="(evidencias/[^"]+)"[^>]*>', img_o_pendiente, cuerpo)
 
     # Índice (H1 y H2)
     entradas = []
