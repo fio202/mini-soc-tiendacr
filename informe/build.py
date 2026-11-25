@@ -25,7 +25,7 @@ CONFIG = {
     "titulo": "Proyecto 2: Mini SOC TiendaCR",
     "subtitulo": "Laboratorio local con Wazuh, Suricata, monitoreo y respuesta a incidentes",
     "integrantes": ["Fiorella Zamora Campos", "Harold Saborío Arce"],
-    "fecha": "18 de noviembre de 2026",
+    "fecha": "25 de noviembre de 2026",
     "pdf": "P1_Zamora_Saborio.pdf",
 }
 
