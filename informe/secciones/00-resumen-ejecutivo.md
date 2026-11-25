@@ -21,15 +21,13 @@ Las tres se aprovisionan de forma reproducible con Vagrant.
 - **Reglas propias:** 6 reglas de detección en Suricata y 9 en Wazuh, todas con su técnica MITRE ATT&CK.
 - **Respuesta automática:** bloquea la IP atacante en el firewall. En la prueba controlada actuó en **1,07 s**.
 
-<span class="todo">COMPLETAR con los resultados de los ataques:</span>
-
-- De los cuatro ataques controlados ejecutados, se detectaron <span class="todo">COMPLETAR</span>.
-- El tiempo medio hasta la alerta fue de <span class="todo">COMPLETAR</span> s.
-- La respuesta automática bloqueó al atacante en <span class="todo">COMPLETAR</span> s.
+- De los cuatro ataques controlados ejecutados, **se detectaron los cuatro**, cada uno con su regla propia y su técnica MITRE ATT&CK.
+- El tiempo medio hasta la primera alerta fue de **15 s** (de 4,1 s en la SQLi a 21,1 s en el escaneo).
+- La respuesta automática bloqueó al atacante **19,2 s** después del inicio de la fuerza bruta (la ejecución del bloqueo, desde la alerta, tardó ~1 s).
 
 **Resultado:**
 
-- Después de la remediación (nivel de seguridad *impossible*, límite de velocidad en el login, prohibición de ejecutar PHP en las subidas, cabeceras de seguridad y actualizaciones), la repetición de los ataques 2 y 3 <span class="todo">COMPLETAR: no obtuvo contraseña ni datos</span>.
+- Después de la remediación (nivel de seguridad *impossible*, límite de velocidad en el login, prohibición de ejecutar PHP en las subidas, cabeceras de seguridad y actualizaciones), la repetición de los ataques 2 y 3 **no obtuvo contraseña ni datos**: la fuerza bruta recibió 429 y la inyección SQL devolvió 0 filas.
 - El riesgo residual baja a **0 críticos y 1 alto** (R08, por el kernel sin actualizar): quedan 8 medios y 3 bajos.
 
 **Recomendaciones principales para producción:**

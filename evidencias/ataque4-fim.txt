@@ -1,0 +1,1 @@
+{"t":"2026-11-25T17:05:07.702-0600","file":"/opt/dvwa/uploads/prueba.php","event":"added","sha256":"ab98b95a6a9ae5c91323e3fa24b50b44a539ce15dae91a2f9f3b57b276258aae"}

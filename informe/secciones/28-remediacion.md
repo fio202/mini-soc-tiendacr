@@ -13,7 +13,7 @@ Así, los ataques 2 y 3 se repiten en idénticas condiciones antes y después.
 | C2 | Intentos de login ilimitados | `limit_req` de 10 por minuto por IP (ráfaga de 5) en `/login.php` y `/vulnerabilities/brute/` → **429** | `200 200 200 200 429 429 …` |
 | C3 | Ejecución de archivos subidos | **403** a `.php`, `.phtml` y `.phar` bajo `/hackable/uploads/` | 403 |
 | C4 | Clickjacking, MIME sniffing y XSS | Cabeceras CSP, `X-Frame-Options`, `X-Content-Type-Options` y `Referrer-Policy` | Las 4 presentes |
-| C5 | Paquetes con CVE | `apt upgrade` y revisión de imágenes; instalar un kernel HWE compatible y reiniciar siguen pendientes. | ✏️ CVE en el panel después de remediar |
+| C5 | Paquetes con CVE | `apt upgrade` y revisión de imágenes; instalar un kernel HWE compatible y reiniciar siguen pendientes. | 7.541 hallazgos (7.517 del kernel 6.8.0-86) siguen en el panel |
 
 **Riesgo residual C5:** el kernel `6.8.0-86` **no quedó actualizado** con `apt upgrade` en la evidencia disponible. Es necesario instalar el kernel HWE compatible, reiniciar el servidor, verificar `uname -r` y volver a revisar las CVE con Wazuh. Hasta entonces, las vulnerabilidades asociadas al kernel permanecen como riesgo residual y **debe revisarse el puntaje R08** antes de afirmar que todos los riesgos altos desaparecieron.
 
@@ -21,8 +21,8 @@ Así, los ataques 2 y 3 se repiten en idénticas condiciones antes y después.
 
 | Ataque | Antes | Después | Detección después |
 |---|---|---|---|
-| 2. Fuerza bruta | ✏️ (esperado: se encuentra la contraseña; respuestas 200; bloqueo por 100101) | ✏️ (esperado: 429 desde el 5.º intento, CSRF y bloqueo de cuenta; **sin contraseña**) | ✏️ (100100/100101, más 31151 por los múltiples 4xx) |
-| 3. SQLi | ✏️ (esperado: se extraen usuarios y hashes) | ✏️ (esperado: **sin filas extraídas**) | ✏️ (100122 **sigue apareciendo**) |
+| 2. Fuerza bruta | Respuestas **200**; a los ~10 intentos salta la 100101 y `firewall-drop` bloquea a Kali. **No** se obtuvo contraseña | Respuestas **200** solo las primeras 6; desde la **7.ª** petición nginx responde **429**. **Sin contraseña** | 100100/100101 y los 4xx por el límite de velocidad |
+| 3. SQLi | Se extraen los **5 usuarios con sus hashes MD5** | **0 filas extraídas** (consultas preparadas, nivel *impossible*) | **100122 sigue apareciendo** (T+46,9 s): el IDS ve el intento |
 
 > **Punto clave:** después de remediar, la alerta de SQLi no desaparece, y eso es correcto. El IDS ve el *intento*. La reevaluación se mide por el **impacto** (datos o contraseña obtenidos), no por la ausencia de alertas.
 

@@ -54,7 +54,7 @@ El enunciado pide como mínimo 2 reglas de Suricata y 1 de Wazuh. Se crearon **6
 | 19:40:35.108 | Alerta **100101** en el SIEM |
 | 19:40:35.496 | `DROP` aplicado en el objetivo (**1,07 s** en total) |
 
-La regla DROP quedó en la **posición 1 de INPUT**, antes de las cadenas de UFW, así que bloquea incluso a una IP que UFW permite. Con el ataque real: ✏️ s hasta el bloqueo de Kali.
+La regla DROP quedó en la **posición 1 de INPUT**, antes de las cadenas de UFW, así que bloquea incluso a una IP que UFW permite. Con el ataque real, el bloqueo de Kali se produjo **19,2 s** después del inicio de la fuerza bruta (la 100101 se disparó a los 19,2 s y `firewall-drop` se ejecutó en el mismo instante).
 
 **Riesgo de bloquear tráfico legítimo:**
 

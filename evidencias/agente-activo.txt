@@ -1,0 +1,7 @@
+
+Wazuh agent_control. List of available agents:
+   ID: 000, Name: tiendacr-siem (server), IP: 127.0.0.1, Active/Local
+   ID: 001, Name: tiendacr-web, IP: any, Active
+
+List of agentless devices:
+

@@ -1,0 +1,6 @@
+=== Ataque 3 (SQLi) DESPUES de remediar (nivel impossible) ===
+kali:~$ curl ".../vulnerabilities/sqli/?id=' UNION SELECT user, password FROM users#&Submit=Submit"
+Filas con hash devueltas: 0
+Origen 192.168.56.30 | inicio 2026-11-25 17:08:00 (UTC-6) | nivel >= 10
+  Regla Niv  Primera alerta   T+ (s) Total  MITRE        Descripcion
+ 100122  12    17:08:46.851     46.9     1  T1190        TiendaCR IDS: TIENDACR SQLi: UNION SELECT en parametro HTTP desde 192.168.56.30

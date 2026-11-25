@@ -1,0 +1,6 @@
+Origen 192.168.56.30 | inicio 2026-11-25 17:04:52 (UTC-6) | nivel >= 3
+
+  Regla Niv  Primera alerta   T+ (s) Total  MITRE        Descripcion
+ 100123  12    17:05:09.175     17.2     1  T1505.003    TiendaCR IDS: subida de codigo PHP desde 192.168.56.30 (posible web shell)
+  86601   3    17:05:09.177     17.2     1  -            Suricata: Alert - ET WEB_SERVER PHP tags in HTTP POST
+--- FIM (regla 100110, hash) ---

@@ -1,0 +1,5 @@
+INICIO=2026-11-25 17:08:42
+=== Ataque 2 (fuerza bruta) DESPUES de remediar (limite de nginx) ===
+kali:~$ hydra -l admin -P fasttrack.txt -t 4 ... http-get-form .../vulnerabilities/brute/
+--- codigos HTTP de las primeras 15 peticiones de fuerza bruta ---
+200 200 200 200 200 200 429 429 429 429 429 429 429 429 429 

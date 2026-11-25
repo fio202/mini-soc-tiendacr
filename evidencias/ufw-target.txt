@@ -1,0 +1,13 @@
+Status: active
+Logging: on (medium)
+Default: deny (incoming), allow (outgoing), deny (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp on eth0             ALLOW IN    10.0.2.2                   # R00 gestion vagrant (NAT VirtualBox)
+22/tcp on eth1             ALLOW IN    192.168.56.1               # R01 SSH admin desde 192.168.56.1
+22/tcp on eth1             ALLOW IN    192.168.56.30              # R01 SSH admin desde 192.168.56.30
+192.168.56.10 80/tcp on eth1 ALLOW IN    192.168.56.1               # R02 HTTP TiendaCR desde 192.168.56.1
+192.168.56.10 80/tcp on eth1 ALLOW IN    192.168.56.30              # R02 HTTP TiendaCR desde 192.168.56.30
+

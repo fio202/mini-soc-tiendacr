@@ -1,0 +1,7 @@
+Origen 192.168.56.30 | inicio 2026-11-25 17:05:50 (UTC-6) | nivel >= 3
+
+  Regla Niv  Primera alerta   T+ (s) Total  MITRE        Descripcion
+ 100100   3    17:06:09.146     19.1    27  -            TiendaCR: intento de login web desde 192.168.56.30
+ 100101  10    17:06:09.182     19.2     1  T1110.001    TiendaCR: fuerza bruta contra el login web desde 192.168.56.30 (10 intentos/60 s)
+ 100120   8    17:06:09.348     19.3    72  T1046        TiendaCR IDS: barrido de puertos desde 192.168.56.30
+ 100121  10    17:06:09.357     19.4    18  T1110.001    TiendaCR IDS: fuerza bruta de login web desde 192.168.56.30

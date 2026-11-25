@@ -1,0 +1,6 @@
+Origen 192.168.56.30 | inicio 2026-11-25 17:01:34 (UTC-6) | nivel >= 3
+
+  Regla Niv  Primera alerta   T+ (s) Total  MITRE        Descripcion
+ 100120   8    17:01:55.052     21.1  1978  T1046        TiendaCR IDS: barrido de puertos desde 192.168.56.30
+  86601   3    17:01:55.066     21.1    14  -            Suricata: Alert - ET SCAN Suspicious inbound to mySQL port 3306
+  31101   5    17:02:05.056     31.1     4  -            Web server 400 error code.

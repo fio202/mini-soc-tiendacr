@@ -1,0 +1,8 @@
+--- iptables (DROP a Kali) ---
+Chain INPUT (policy DROP)
+num  target     prot opt source               destination         
+1    DROP       0    --  192.168.56.30        0.0.0.0/0           
+2    ufw-before-logging-input  0    --  0.0.0.0/0            0.0.0.0/0           
+3    ufw-before-input  0    --  0.0.0.0/0            0.0.0.0/0           
+--- active-responses.log ---
+2026/11/25 17:06:09 firewall-drop: command=add  key=192.168.56.30  regla=100101 (T1110.001)  -> iptables DROP insertado en INPUT pos 1 (600 s)

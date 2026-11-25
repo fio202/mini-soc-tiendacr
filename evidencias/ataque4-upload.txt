@@ -1,0 +1,6 @@
+INICIO=2026-11-25 17:04:52
+kali:~$ # subir prueba.php por File Upload y abrir /hackable/uploads/prueba.php
+../../hackable/uploads/prueba.php
+succesfully uploaded
+--- ejecucion del PHP subido ---
+TiendaCR prueba de integridad

